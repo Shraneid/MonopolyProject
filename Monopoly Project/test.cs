@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Monopoly_Project
 {
-    class Program
+    class test
     {
-        static void Main(string[] args)
-        {
-            
-        }
     }
 }
