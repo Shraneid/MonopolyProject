@@ -11,6 +11,7 @@ namespace MonopolyUnitTest
         public void CheckBoardCreator()
         {
             Gameboard board = new Gameboard();
+            Assert.AreEqual(board.cells.length, 40, "problem initializing the cells");
         }
 
         [TestMethod]

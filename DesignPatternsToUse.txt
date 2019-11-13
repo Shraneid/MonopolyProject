@@ -1,0 +1,8 @@
+Factory --> create players
+Factory --> create cells
+Singleton --> create board
+Command --> represent all valid game actions
+Memento --> saving and loading (and networking)
+Observer --> GUI
+MVC --> GUI
+Strategy Pattern --> dealing with every cell (maybe cards ?)
