@@ -25,7 +25,7 @@ namespace Monopoly_Project
 
         public static void InstantiatePropertyCells(Cell[] Cells)
         {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\..\\Cells.monopoly");
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\..\\CellsConfig.monopoly");
             string[] lines = File.ReadAllLines(path);
 
             for (int i = 0; i < Cells.Length; i++)
