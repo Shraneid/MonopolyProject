@@ -36,7 +36,7 @@ namespace Monopoly_Project
         {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\..\\Cells.monopoly");
             string[] lines = File.ReadAllLines(path);
-
+                                                    
             for (int i = 0; i < Cells.Length; i++)
             {
                 if (Cells[i].Type == CellType.PropertyCell)
