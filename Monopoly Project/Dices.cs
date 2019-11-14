@@ -15,11 +15,11 @@ namespace Monopoly_Project
             int dice2 = rand.Next(1, 7);
             if (dice1.Equals(dice2))
             {
-                ActionManager.CurrentPlayer.ConsecutiveDoubles++;
+                ActionManager.instance.CurrentPlayer.ConsecutiveDoubles++;
             }
             else
             {
-                ActionManager.CurrentPlayer.ConsecutiveDoubles = 0;
+                ActionManager.instance.CurrentPlayer.ConsecutiveDoubles = 0;
             }
             return dice1 + dice2;
         }

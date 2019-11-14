@@ -6,14 +6,27 @@ using System.Threading.Tasks;
 
 namespace Monopoly_Project
 {
-    public static class ActionManager
+    public class ActionManager
     {
-        public static Player CurrentPlayer { get; set; }
-        public static Queue<MonopolyAction> Actions { get; set; }
+        public static ActionManager instance;
+        public Player CurrentPlayer { get; set; }
+        public Queue<MonopolyAction> Actions { get; set; }
 
         public static void Init()
         {
-            Actions = new Queue<MonopolyAction>();
+            instance = new ActionManager();
+            instance.Actions = new Queue<MonopolyAction>();
+        }
+
+        internal static void ResolveActions()
+        {
+            instance.Actions.Enqueue(new MoveAction(3));
+
+            //RUN ALL ACTIONS UNTIL EMPTY
+            while (instance.Actions.Count != 0)
+            {
+                instance.Actions.Dequeue().Execute();
+            }
         }
     }
 }

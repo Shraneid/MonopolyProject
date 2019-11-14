@@ -16,16 +16,16 @@
 
         public void Execute()
         {
-            ActionManager.CurrentPlayer.ActualCell = Gameboard.instance.Cells[(ActionManager.CurrentPlayer.ActualCell.Index+NumberOfSteps)%40];
-            if ((ActionManager.CurrentPlayer.ActualCell.Index + NumberOfSteps) / 40 > 0)
+            ActionManager.instance.CurrentPlayer.ActualCell = Gameboard.instance.Cells[(ActionManager.instance.CurrentPlayer.ActualCell.Index+NumberOfSteps)%40];
+            if ((ActionManager.instance.CurrentPlayer.ActualCell.Index + NumberOfSteps) / 40 > 0)
             {
-                ActionManager.Actions.Enqueue(new GetSalaryAction());
+                ActionManager.instance.Actions.Enqueue(new GetSalaryAction());
             }
         }
 
         public bool IsLegalMove()
         {
-            if (ActionManager.CurrentPlayer.IsInPrison)
+            if (ActionManager.instance.CurrentPlayer.IsInPrison)
             {
                 return false;
             }
@@ -40,7 +40,7 @@
 
         public void Execute()
         {
-            ActionManager.CurrentPlayer.Cash += Player.SALARY;
+            ActionManager.instance.CurrentPlayer.Cash += Player.SALARY;
         }
 
         public bool IsLegalMove()

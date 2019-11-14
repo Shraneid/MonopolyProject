@@ -17,10 +17,12 @@ namespace Monopoly_Project
             //FOR DEBUGGING
 
             Gameboard g = Gameboard.instance;
+            ActionManager a = ActionManager.instance;
+            TurnManager t = TurnManager.instance;
 
             do
             {
-                TurnManager.NextTurn();
+                TurnManager.instance.NextTurn();
             } while (!TurnManager.GameEnded());
 
             Console.ReadKey();
