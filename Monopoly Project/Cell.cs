@@ -4,44 +4,46 @@ namespace Monopoly_Project
 {
     public abstract class Cell
     {
-        public static class CellType
+        public enum CellType
         {
-            public static int StartCell = 0;
-            public static int PropertyCell = 1;
-            public static int JailCell = 2;
-            public static int GoToJailCell = 3;
-            public static int FreeParking = 4;
+            StartCell,
+            PropertyCell,
+            JailCell,
+            GoToJailCell,
+            FreeParking,
+            Bug
+        }
+        public static CellType GetType(string v)
+        {
+            CellType type = CellType.Bug;
 
-            internal static int GetType(string v)
+            if (v == "StartCell")
             {
-                if (v == "StartCell")
-                {
-                    return StartCell;
-                }
-                if (v == "PropertyCell")
-                {
-                    return PropertyCell;
-                }
-                if (v == "JailCell")
-                {
-                    return JailCell;
-                }
-                if (v == "GoToJailCell")
-                {
-                    return GoToJailCell;
-                }
-                if (v == "FreeParking")
-                {
-                    return FreeParking;
-                }
-                return -1;
+                type = CellType.StartCell;
             }
+            if (v == "PropertyCell")
+            {
+                type = CellType.PropertyCell;
+            }
+            if (v == "JailCell")
+            {
+                type = CellType.JailCell;
+            }
+            if (v == "GoToJailCell")
+            {
+                type = CellType.GoToJailCell;
+            }
+            if (v == "FreeParking")
+            {
+                type = CellType.FreeParking;
+            }
+            return type;
         }
 
-        public int Type { get; set; }
-        public Action Action { get; set; }
+        public CellType Type { get; set; }
+        public MonopolyAction Action { get; set; }
 
-        internal static Cell GetCell(int cellType)
+        internal static Cell GetCell(CellType cellType)
         {
             Cell cell = null;
             if (cellType == CellType.StartCell)

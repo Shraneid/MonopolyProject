@@ -17,15 +17,6 @@ namespace Monopoly_Project
         {
             instance = new Gameboard{Cells = new Cell[40]};
 
-            /*for (int i = 0; i < 40; i++)
-            {
-                instance.Cells[i] = Cell.GetCell(CellType.PropertyCell);
-            }
-            instance.Cells[0] = Cell.GetCell(CellType.StartCell);
-            instance.Cells[10] = Cell.GetCell(CellType.JailCell);
-            instance.Cells[20] = Cell.GetCell(CellType.FreeParking);
-            instance.Cells[30] = Cell.GetCell(CellType.GoToJailCell);
-            */
             InstantiatePropertyCells(instance.Cells);
 
             StartCell = instance.Cells[0];
@@ -39,7 +30,7 @@ namespace Monopoly_Project
 
             for (int i = 0; i < Cells.Length; i++)
             {
-                int type = CellType.GetType(lines[i].Split(',')[0]);
+                CellType type = Cell.GetType(lines[i].Split(',')[0]);
                 Cells[i] = Cell.GetCell(type);
                 if (Cells[i].Type == CellType.PropertyCell)
                 {
@@ -50,3 +41,17 @@ namespace Monopoly_Project
         }
     }
 }
+
+/*
+TurnManager.AddAction(new MoveAction(Dices.Roll()))
+//
+//  TURNMANAGER LOGIC
+//
+
+while(ActionManager.Actions.Length != 0){
+    ActionManager.NextAction();
+}
+
+if (Dices.WasDouble){
+    TurnManager.AddAction(new RollDicesAction())
+}*/
