@@ -11,6 +11,31 @@ namespace Monopoly_Project
             public static int JailCell = 2;
             public static int GoToJailCell = 3;
             public static int FreeParking = 4;
+
+            internal static int GetType(string v)
+            {
+                if (v == "StartCell")
+                {
+                    return StartCell;
+                }
+                if (v == "PropertyCell")
+                {
+                    return PropertyCell;
+                }
+                if (v == "JailCell")
+                {
+                    return JailCell;
+                }
+                if (v == "GoToJailCell")
+                {
+                    return GoToJailCell;
+                }
+                if (v == "FreeParking")
+                {
+                    return FreeParking;
+                }
+                return -1;
+            }
         }
 
         public int Type { get; set; }

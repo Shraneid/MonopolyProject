@@ -9,27 +9,27 @@ namespace Monopoly_Project
     {
         public static Gameboard instance;
 
-        public static Cell[] Cells { get; internal set; }
+        public Cell[] Cells { get; internal set; }
         public static Cell StartCell;
         public static Cell JailCell;
 
         public static void Init()
         {
-            instance = new Gameboard();
-            Cells = new Cell[40];
-            for (int i = 0; i < 40; i++)
+            instance = new Gameboard{Cells = new Cell[40]};
+
+            /*for (int i = 0; i < 40; i++)
             {
-                Cells[i] = Cell.GetCell(CellType.PropertyCell);
+                instance.Cells[i] = Cell.GetCell(CellType.PropertyCell);
             }
-            Cells[0] = Cell.GetCell(CellType.StartCell);
-            Cells[10] = Cell.GetCell(CellType.JailCell);
-            Cells[20] = Cell.GetCell(CellType.FreeParking);
-            Cells[30] = Cell.GetCell(CellType.GoToJailCell);
+            instance.Cells[0] = Cell.GetCell(CellType.StartCell);
+            instance.Cells[10] = Cell.GetCell(CellType.JailCell);
+            instance.Cells[20] = Cell.GetCell(CellType.FreeParking);
+            instance.Cells[30] = Cell.GetCell(CellType.GoToJailCell);
+            */
+            InstantiatePropertyCells(instance.Cells);
 
-            InstantiatePropertyCells(Cells);
-
-            StartCell = Cells[0];
-            JailCell = Cells[10];
+            StartCell = instance.Cells[0];
+            JailCell = instance.Cells[10];
         }
 
         public static void InstantiatePropertyCells(Cell[] Cells)
@@ -39,10 +39,12 @@ namespace Monopoly_Project
 
             for (int i = 0; i < Cells.Length; i++)
             {
+                int type = CellType.GetType(lines[i].Split(',')[0]);
+                Cells[i] = Cell.GetCell(type);
                 if (Cells[i].Type == CellType.PropertyCell)
                 {
-                    ((PropertyCell)Cells[i]).Value = Convert.ToDouble(lines[i].Split(',')[0]);
-                    ((PropertyCell)Cells[i]).StreetName = lines[i].Split(',')[1];
+                    ((PropertyCell)Cells[i]).Value = Convert.ToDouble(lines[i].Split(',')[1]);
+                    ((PropertyCell)Cells[i]).StreetName = lines[i].Split(',')[2];
                 }
             }
         }
