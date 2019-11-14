@@ -10,15 +10,15 @@ namespace MonopolyUnitTest
         [TestMethod]
         public void CheckBoardCreator()
         {
-            Gameboard board = new Gameboard();
-            Assert.AreEqual(board.cells.length, 40, "problem initializing the cells");
+            Gameboard.Init();
+            Assert.AreEqual(Gameboard.instance.Cells.Length, 40, "problem initializing the cells");
         }
 
         [TestMethod]
         public void CheckPlayerFactory()
         {
-            Player p1 = PlayerFactory.getNewPlayer();
-            Player p2 = PlayerFactory.getNewPlayer();
+            Player p1 = Player.GetNewPlayer("Quentin");
+            Player p2 = Player.GetNewPlayer("Brounounours");
         }
     }
 }
