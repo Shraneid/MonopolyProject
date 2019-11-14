@@ -10,16 +10,18 @@ namespace Monopoly_Project
     {
         static void Main(string[] args)
         {
-            int NbPlayers = 2;
-            List<Player> players = new List<Player>();
             Gameboard.Init();
+            ActionManager.Init();
+            TurnManager.Init();
+
+            //FOR DEBUGGING
+
             Gameboard g = Gameboard.instance;
 
-            for (int i = 0; i < NbPlayers; i++)
+            do
             {
-                Console.WriteLine("Player " + (i+1) + "'s name : ");
-                players.Add(Player.GetNewPlayer(Console.ReadLine()));
-            }
+                TurnManager.NextTurn();
+            } while (!TurnManager.GameEnded());
 
             Console.ReadKey();
         }

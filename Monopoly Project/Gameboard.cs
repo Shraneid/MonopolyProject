@@ -31,7 +31,7 @@ namespace Monopoly_Project
             for (int i = 0; i < Cells.Length; i++)
             {
                 CellType type = Cell.GetType(lines[i].Split(',')[0]);
-                Cells[i] = Cell.GetCell(type);
+                Cells[i] = Cell.GetCell(i, type);
                 if (Cells[i].Type == CellType.PropertyCell)
                 {
                     ((PropertyCell)Cells[i]).Value = Convert.ToDouble(lines[i].Split(',')[1]);

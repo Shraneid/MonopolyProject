@@ -8,7 +8,6 @@ namespace Monopoly_Project
 {
     static class Dices
     {
-        static bool is_double;
         static int Roll()
         {
             Random rand = new Random();
@@ -16,11 +15,11 @@ namespace Monopoly_Project
             int dice2 = rand.Next(1, 7);
             if (dice1.Equals(dice2))
             {
-                is_double = true;
+                ActionManager.CurrentPlayer.ConsecutiveDoubles++;
             }
             else
             {
-                is_double = false;
+                ActionManager.CurrentPlayer.ConsecutiveDoubles = 0;
             }
             return dice1 + dice2;
         }

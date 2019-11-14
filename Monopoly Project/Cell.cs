@@ -42,8 +42,9 @@ namespace Monopoly_Project
 
         public CellType Type { get; set; }
         public MonopolyAction Action { get; set; }
+        public int Index { get; set; }
 
-        internal static Cell GetCell(CellType cellType)
+        internal static Cell GetCell(int index, CellType cellType)
         {
             Cell cell = null;
             if (cellType == CellType.StartCell)
@@ -66,6 +67,7 @@ namespace Monopoly_Project
             {
                 cell = new FreeParking();
             }
+            cell.Index = index;
             return cell;
         }
 

@@ -43,11 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionManager.cs" />
+    <Compile Include="Dices.cs" />
     <Compile Include="Gameboard.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="MonopolyAction.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TurnManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

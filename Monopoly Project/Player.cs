@@ -4,16 +4,22 @@ namespace Monopoly_Project
 {
     public class Player
     {
-        private const double BASE_CASH = 200;
+        private const double BASE_CASH = 1500;
+        public static double SALARY = 200;
+
         public double Cash { get; set; }
         public Cell ActualCell { get; set; }
         public string Name { get; set; }
+        public bool IsInPrison { get; set; }
+        public int ConsecutiveDoubles { get; set; }
+        public bool Bankrupt { get; set; }
 
         public Player(string name)
         {
             Cash = BASE_CASH;
             ActualCell = Gameboard.StartCell;
             Name = name;
+            Bankrupt = false;
         }
 
         public Player(double cash, Cell actualCell, string name)
