@@ -13,6 +13,7 @@ namespace Monopoly_Project
             FreeParking,
             Bug
         }
+
         public static CellType GetType(string v)
         {
             CellType type = CellType.Bug;

@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Monopoly_Project
 {
-    static class Dices
+    public static class Dices
     {
-        static int Roll()
+        public static int Roll()
         {
             Random rand = new Random();
-            int dice1 = rand.Next(1,7);
+            int dice1 = rand.Next(1, 7);
             int dice2 = rand.Next(1, 7);
+            dice2 = dice1;
+
             if (dice1.Equals(dice2))
             {
                 ActionManager.instance.CurrentPlayer.ConsecutiveDoubles++;
@@ -23,7 +25,5 @@ namespace Monopoly_Project
             }
             return dice1 + dice2;
         }
-
-
     }
 }

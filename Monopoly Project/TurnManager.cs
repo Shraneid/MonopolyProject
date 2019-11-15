@@ -36,7 +36,7 @@ namespace Monopoly_Project
                     PlayerIndex = PlayerIndex++ % Players.Length;
                 }
                 ActionManager.instance.CurrentPlayer = Players[PlayerIndex];
-                ActionManager.ResolveActions();
+                ActionManager.PlayTurn();
 
                 EndTurn();
             }
@@ -46,10 +46,15 @@ namespace Monopoly_Project
         {
             if (instance.Turn > 0)
             {
-                if ((ActionManager.instance.CurrentPlayer.ActualCell).Type == CellType.PropertyCell)
+                Player p = ActionManager.instance.CurrentPlayer;
+                if ((p.ActualCell).Type == CellType.PropertyCell)
                 {
-                    PropertyCell cell = ((PropertyCell)ActionManager.instance.CurrentPlayer.ActualCell);
-                    Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + "'s cell : " + cell.StreetName + ", " + cell.Value + "$");
+                    PropertyCell cell = ((PropertyCell)p.ActualCell);
+                    Console.WriteLine(p.Name + "'s cell : " + cell.StreetName +
+                        ", " + cell.Value + "$");
+                } else
+                {
+                    Console.WriteLine();
                 }
             }
             instance.Turn++;

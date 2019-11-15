@@ -10,7 +10,8 @@ namespace Monopoly_Project
         public double Cash { get; set; }
         public Cell ActualCell { get; set; }
         public string Name { get; set; }
-        public bool IsInPrison { get; set; }
+        public bool IsInJail { get; set; }
+        public int TurnsInJail { get; set; }
         public int ConsecutiveDoubles { get; set; }
         public bool Bankrupt { get; set; }
 
