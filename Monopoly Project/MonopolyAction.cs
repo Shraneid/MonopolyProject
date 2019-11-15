@@ -38,6 +38,7 @@ namespace Monopoly_Project
             return true;
         }
     }
+
     public class GoToJailAction : MonopolyAction
     {
         public int NumberOfSteps { get; set; }
