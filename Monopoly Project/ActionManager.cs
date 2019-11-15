@@ -33,18 +33,21 @@ namespace Monopoly_Project
                 //EXECUTE THE ACTUAL ACTION
                 instance.Actions[0].Execute();
 
+                Player p = instance.CurrentPlayer;
+
                 //MANAGER OF SUCCESSIVE DOUBLE
-                if (instance.Actions[0].GetType() == typeof(RollDiceAction))
+                if (instance.Actions[0].GetType() == typeof(MoveAction))
                 {
-                    if (instance.CurrentPlayer.ConsecutiveDoubles != 0)
+                    if (p.ConsecutiveDoubles != 0)
                     {
-                        if (instance.CurrentPlayer.ConsecutiveDoubles == 3)
+                        if (p.ConsecutiveDoubles == 3)
                         {
+                            p.ConsecutiveDoubles = 0;
                             instance.Actions.Clear();
                             AddAction(new DummyAction());
                             AddAction(new GoToJailAction());
                         }
-                        else if (instance.CurrentPlayer.IsInJail)
+                        else if (p.IsInJail)
                         {
                             AddInstantAction(new GetOutOfJailAction());
                         }
@@ -57,7 +60,7 @@ namespace Monopoly_Project
                 //If he is stuck in prison for 3 consecutive turns, we immediatly pop him from prison
                 //but we do this after checking for doubles, because he shouldn't be able to benefit
                 //from the double rule if he gets out of prison
-                if (instance.CurrentPlayer.TurnsInJail >= 3)
+                if (p.TurnsInJail >= 3)
                 {
                     AddInstantAction(new GetOutOfJailAction());
                 }
@@ -77,7 +80,7 @@ namespace Monopoly_Project
             //one, we need to make sure it is taken into account here as we keep the rolldice as the last action that should
             //resolve). This is the reason we can't use a Queue instead of a List (or we could by overriding the Enqueue() 
             //method but it wouldn't make much sense and we'd loose the utility of a Queue)
-            if (instance.Actions.Count != 0 && instance.Actions[instance.Actions.Count - 1].GetType() == typeof(MoveAction))
+            if (instance.Actions.Count > 1 && instance.Actions[instance.Actions.Count - 1].GetType() == typeof(RollDiceAction))
             {
                 instance.Actions.Insert(instance.Actions.Count - 1, a);
             }

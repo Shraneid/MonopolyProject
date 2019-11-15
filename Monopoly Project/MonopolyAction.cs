@@ -1,4 +1,5 @@
 ﻿using System;
+using static Monopoly_Project.Cell;
 
 namespace Monopoly_Project
 {
@@ -8,6 +9,20 @@ namespace Monopoly_Project
         public virtual bool IsLegalMove()
         {
             return true;
+        }
+
+        public static void PrintCell(Cell cell)
+        {
+            if (cell.Type == CellType.PropertyCell)
+            {
+                PropertyCell Cell = (PropertyCell)cell;
+                Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + "'s cell : " + Cell.StreetName +
+                    ", " + Cell.Value + "$");
+            }
+            else
+            {
+                Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + " is on the " + Cell.ToString(cell.Type));
+            }
         }
     }
 
@@ -22,12 +37,14 @@ namespace Monopoly_Project
         public override void Execute()
         {
             Console.WriteLine("You move forward " + NumberOfSteps + " cells");
-            ActionManager.instance.CurrentPlayer.ActualCell = 
-                Gameboard.instance.Cells[(ActionManager.instance.CurrentPlayer.ActualCell.Index+NumberOfSteps)%40];
-            if ((ActionManager.instance.CurrentPlayer.ActualCell.Index + NumberOfSteps) / 40 > 0)
+            Player p = ActionManager.instance.CurrentPlayer;
+            p.ActualCell = Gameboard.instance.Cells[(p.ActualCell.Index+NumberOfSteps)%40];
+            if ((p.ActualCell.Index + NumberOfSteps) / 40 > 0)
             {
                 ActionManager.AddAction(new GetSalaryAction());
             }
+
+            PrintCell(p.ActualCell);
         }
 
         public override bool IsLegalMove()

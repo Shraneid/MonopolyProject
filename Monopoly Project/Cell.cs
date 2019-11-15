@@ -14,6 +14,38 @@ namespace Monopoly_Project
             Bug
         }
 
+        public static String ToString(CellType cellType)
+        {
+            String txt = "";
+
+            if (cellType == CellType.StartCell)
+            {
+                txt = "Start Cell";
+            }
+            if (cellType == CellType.PropertyCell)
+            {
+                txt = "Property Cell";
+            }
+            if (cellType == CellType.JailCell)
+            {
+                txt = "Jail Cell";
+            }
+            if (cellType == CellType.GoToJailCell)
+            {
+                txt = "go to Jail Cell";
+            }
+            if (cellType == CellType.FreeParking)
+            {
+                txt = "Free Parking";
+            }
+            if (cellType == CellType.Bug)
+            {
+                txt = "Bug";
+            }
+
+            return txt;
+        }
+
         public static CellType GetType(string v)
         {
             CellType type = CellType.Bug;

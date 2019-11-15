@@ -44,19 +44,6 @@ namespace Monopoly_Project
 
         private static void EndTurn()
         {
-            if (Instance.Turn > 0)
-            {
-                Player p = ActionManager.instance.CurrentPlayer;
-                if ((p.ActualCell).Type == CellType.PropertyCell)
-                {
-                    PropertyCell cell = ((PropertyCell)p.ActualCell);
-                    Console.WriteLine(p.Name + "'s cell : " + cell.StreetName +
-                        ", " + cell.Value + "$");
-                } else
-                {
-                    Console.WriteLine();
-                }
-            }
             Instance.Turn++;
             ActionManager.instance.Actions.Clear();
             Console.ReadKey();
