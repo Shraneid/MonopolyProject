@@ -18,11 +18,11 @@ namespace Monopoly_Project
 
             Gameboard g = Gameboard.instance;
             ActionManager a = ActionManager.instance;
-            TurnManager t = TurnManager.instance;
+            TurnManager t = TurnManager.Instance;
 
             do
             {
-                TurnManager.instance.NextTurn();
+                TurnManager.Instance.NextTurn();
             } while (!TurnManager.GameEnded());
 
             Console.ReadKey();

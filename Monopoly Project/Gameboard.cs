@@ -41,17 +41,3 @@ namespace Monopoly_Project
         }
     }
 }
-
-/*
-TurnManager.AddAction(new MoveAction(Dices.Roll()))
-//
-//  TURNMANAGER LOGIC
-//
-
-while(ActionManager.Actions.Length != 0){
-    ActionManager.NextAction();
-}
-
-if (Dices.WasDouble){
-    TurnManager.AddAction(new RollDicesAction())
-}*/

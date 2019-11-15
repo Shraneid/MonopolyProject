@@ -2,10 +2,13 @@
 
 namespace Monopoly_Project
 {
-    public interface MonopolyAction
+    public abstract class MonopolyAction
     {
-        bool IsLegalMove();
-        void Execute();
+        public abstract void Execute();
+        public virtual bool IsLegalMove()
+        {
+            return true;
+        }
     }
 
     public class MoveAction : MonopolyAction
@@ -16,7 +19,7 @@ namespace Monopoly_Project
             NumberOfSteps = numberOfSteps;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             Console.WriteLine("You move forward " + NumberOfSteps + " cells");
             ActionManager.instance.CurrentPlayer.ActualCell = Gameboard.instance.Cells[(ActionManager.instance.CurrentPlayer.ActualCell.Index+NumberOfSteps)%40];
@@ -26,7 +29,7 @@ namespace Monopoly_Project
             }
         }
 
-        public bool IsLegalMove()
+        public override bool IsLegalMove()
         {
             if (ActionManager.instance.CurrentPlayer.IsInJail)
             {
@@ -40,18 +43,13 @@ namespace Monopoly_Project
         public int NumberOfSteps { get; set; }
         public GoToJailAction(){}
 
-        public void Execute()
+        public override void Execute()
         {
             Console.WriteLine("You have gotten 3 doubles in a row, therefore you are caught by the police and " +
                 "are sent to jail");
             Player p = ActionManager.instance.CurrentPlayer;
             p.ActualCell = Gameboard.JailCell;
             p.IsInJail = true;
-        }
-
-        public bool IsLegalMove()
-        {
-            return true;
         }
     }
 
@@ -60,15 +58,10 @@ namespace Monopoly_Project
         public int NumberOfSteps { get; set; }
         public GetSalaryAction() { }
 
-        public void Execute()
+        public override void Execute()
         {
             ActionManager.instance.CurrentPlayer.Cash += Player.SALARY;
             Console.WriteLine("Player " + ActionManager.instance.CurrentPlayer.Name + " has now " + ActionManager.instance.CurrentPlayer.Cash + "$");
-        }
-
-        public bool IsLegalMove()
-        {
-            return true;
         }
     }
 
@@ -76,7 +69,7 @@ namespace Monopoly_Project
     {
         public RollDiceAction() { }
 
-        public void Execute()
+        public override void Execute()
         {
             Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + "'s turn to roll the dices, press enter to proceed");
             Console.ReadKey();
@@ -87,40 +80,24 @@ namespace Monopoly_Project
             }
             ActionManager.AddAction(new MoveAction(moveBy));
         }
-
-        public bool IsLegalMove()
-        {
-            return true;
-        }
     }
 
     public class GetOutOfJailAction : MonopolyAction
     {
         public GetOutOfJailAction() { }
 
-        public void Execute()
+        public override void Execute()
         {
             ActionManager.instance.CurrentPlayer.IsInJail = false;
-        }
-
-        public bool IsLegalMove()
-        {
-            return true;
         }
     }
 
     public class DummyAction : MonopolyAction
     {
         public DummyAction() { }
-
-        public void Execute()
+        public override void Execute()
         {
             return;
-        }
-
-        public bool IsLegalMove()
-        {
-            return true;
         }
     }
 }

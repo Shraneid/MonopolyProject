@@ -9,16 +9,16 @@ namespace Monopoly_Project
 {
     public class TurnManager
     {
-        public static TurnManager instance { get; set; }
+        public static TurnManager Instance { get; set; }
         public int Turn { get; set; }
         public int PlayerIndex { get; set; }
         public Player[] Players { get; set; }
 
         public static void Init()
         {
-            instance = new TurnManager();
-            instance.Turn = 0;
-            instance.PlayerIndex = -1;
+            Instance = new TurnManager();
+            Instance.Turn = 0;
+            Instance.PlayerIndex = -1;
         }
 
         public void NextTurn()
@@ -44,7 +44,7 @@ namespace Monopoly_Project
 
         private static void EndTurn()
         {
-            if (instance.Turn > 0)
+            if (Instance.Turn > 0)
             {
                 Player p = ActionManager.instance.CurrentPlayer;
                 if ((p.ActualCell).Type == CellType.PropertyCell)
@@ -57,7 +57,7 @@ namespace Monopoly_Project
                     Console.WriteLine();
                 }
             }
-            instance.Turn++;
+            Instance.Turn++;
             ActionManager.instance.Actions.Clear();
             Console.ReadKey();
         }
@@ -66,19 +66,19 @@ namespace Monopoly_Project
         {
             Console.WriteLine("How many players are there");
             int NbPlayers = Convert.ToInt32(Console.ReadLine());
-            instance.Players = new Player[NbPlayers];
+            Instance.Players = new Player[NbPlayers];
 
             for (int i = 0; i < NbPlayers; i++)
             {
                 Console.WriteLine("Player " + (i + 1) + "'s name : ");
-                instance.Players[i] = (Player.GetNewPlayer(Console.ReadLine()));
+                Instance.Players[i] = (Player.GetNewPlayer(Console.ReadLine()));
             }
         }
 
         public static bool GameEnded()
         {
             int count = 0;
-            foreach (Player p in instance.Players)
+            foreach (Player p in Instance.Players)
             {
                 if (!p.Bankrupt)
                 {
