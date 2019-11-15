@@ -22,7 +22,8 @@ namespace Monopoly_Project
         public override void Execute()
         {
             Console.WriteLine("You move forward " + NumberOfSteps + " cells");
-            ActionManager.instance.CurrentPlayer.ActualCell = Gameboard.instance.Cells[(ActionManager.instance.CurrentPlayer.ActualCell.Index+NumberOfSteps)%40];
+            ActionManager.instance.CurrentPlayer.ActualCell = 
+                Gameboard.instance.Cells[(ActionManager.instance.CurrentPlayer.ActualCell.Index+NumberOfSteps)%40];
             if ((ActionManager.instance.CurrentPlayer.ActualCell.Index + NumberOfSteps) / 40 > 0)
             {
                 ActionManager.AddAction(new GetSalaryAction());
@@ -33,6 +34,7 @@ namespace Monopoly_Project
         {
             if (ActionManager.instance.CurrentPlayer.IsInJail)
             {
+                ActionManager.instance.CurrentPlayer.TurnsInJail++;
                 return false;
             }
             return true;
