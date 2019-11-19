@@ -36,6 +36,7 @@ namespace Monopoly_Project
                 {
                     ((PropertyCell)Cells[i]).Value = Convert.ToDouble(lines[i].Split(',')[1]);
                     ((PropertyCell)Cells[i]).StreetName = lines[i].Split(',')[2];
+                    ((PropertyCell)Cells[i]).property = null;
                 }
             }
         }

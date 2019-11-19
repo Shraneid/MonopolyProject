@@ -46,7 +46,6 @@ namespace Monopoly_Project
         {
             Instance.Turn++;
             ActionManager.instance.Actions.Clear();
-            Console.ReadKey();
         }
 
         private static void InitPlayers()

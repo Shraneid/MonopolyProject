@@ -21,7 +21,7 @@ namespace Monopoly_Project
             }
             else
             {
-                Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + " is on the " + Cell.ToString(cell.Type));
+                Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + " is on the " + Cell.ToString(cell.Type) + "\n");
             }
         }
     }
@@ -45,6 +45,7 @@ namespace Monopoly_Project
             }
 
             PrintCell(p.ActualCell);
+            ActionManager.AddAction(new AttemptToBuyAction());
         }
 
         public override bool IsLegalMove()
@@ -84,14 +85,78 @@ namespace Monopoly_Project
             Console.WriteLine("Player " + ActionManager.instance.CurrentPlayer.Name + " has now " + ActionManager.instance.CurrentPlayer.Cash + "$");
         }
     }
+    public class AttemptToBuyAction : MonopolyAction
+    {
+        public AttemptToBuyAction() { }
 
+        public override void Execute()
+        {
+            Player p =ActionManager.instance.CurrentPlayer;
+            PropertyCell propertyCell = (PropertyCell)p.ActualCell;
+            Console.WriteLine("Player " + ActionManager.instance.CurrentPlayer.Name + " has now " + ActionManager.instance.CurrentPlayer.Cash + "$\n");
+            if (p.Cash >= propertyCell.Value)
+            {
+                ActionManager.AddAction(new BuyPropertyAction());
+            }
+            else
+            {
+                Console.WriteLine("You don't have enough cash to attempt any transaction in this street.");
+            }
+        }
+    }
+
+    public class BuyPropertyAction : MonopolyAction
+    {
+        public BuyPropertyAction() { }
+
+        public override void Execute()
+        {
+            Player p = ActionManager.instance.CurrentPlayer;
+            PropertyCell propertyCell = (PropertyCell)p.ActualCell;
+            if ( propertyCell.property == null)
+            {
+                Console.WriteLine("\nProperty of : No one\nDo you want to buy this street?\nTap Enter to buy, anything else to proceed.");
+                var input = Console.ReadKey();
+                switch (input.Key)
+                {
+                    default:
+                        break;
+                    case ConsoleKey.Enter:
+                        propertyCell.property = ActionManager.instance.CurrentPlayer;
+                        propertyCell.property.Cash -= propertyCell.Value;
+                        Console.WriteLine("Done !\nYou have now : " + ActionManager.instance.CurrentPlayer.Cash + "\n");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Property of : "+propertyCell.property.Name + "\n");
+                if (p.Cash >= 2 * propertyCell.Value)
+                {
+                    Console.WriteLine("Do you want to buy this street for the price of "+propertyCell.Value*2+"?\nTap Enter to buy, anything else to proceed.");
+                    var input = Console.ReadKey();
+                    switch (input.Key)
+                    {
+                        default:
+                            break;
+                        case ConsoleKey.Enter:
+                            propertyCell.property = ActionManager.instance.CurrentPlayer;
+                            propertyCell.property.Cash -= 2*propertyCell.Value; 
+                            Console.WriteLine("Done !\nYou have now : " + ActionManager.instance.CurrentPlayer.Cash + "\n");
+                            break;
+                    }
+                }
+            }
+        }
+
+    }
     public class RollDiceAction : MonopolyAction
     {
         public RollDiceAction() { }
 
         public override void Execute()
         {
-            Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + "'s turn to roll the dices, press enter to proceed");
+            Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + "'s turn to roll the dices, press any key to proceed");
             Console.ReadKey();
             int moveBy = Dices.Roll();
             if (ActionManager.instance.CurrentPlayer.ConsecutiveDoubles != 0)

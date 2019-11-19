@@ -109,6 +109,8 @@ namespace Monopoly_Project
             public double Value { get; set; }
             public String StreetName { get; set; }
 
+            public Player property { get; set; }
+
             public PropertyCell()
             {
                 Type = CellType.PropertyCell;
