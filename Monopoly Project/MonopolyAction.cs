@@ -16,12 +16,12 @@ namespace Monopoly_Project
             if (cell.Type == CellType.PropertyCell)
             {
                 PropertyCell Cell = (PropertyCell)cell;
-                Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + "'s cell : " + Cell.StreetName +
+                Console.WriteLine(ActionManager.Instance.CurrentPlayer.Name + "'s cell : " + Cell.StreetName +
                     ", " + Cell.Value + "$");
             }
             else
             {
-                Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + " is on the " + Cell.ToString(cell.Type) + "\n");
+                Console.WriteLine(ActionManager.Instance.CurrentPlayer.Name + " is on the " + Cell.ToString(cell.Type) + "\n");
             }
         }
     }
@@ -37,22 +37,22 @@ namespace Monopoly_Project
         public override void Execute()
         {
             Console.WriteLine("You move forward " + NumberOfSteps + " cells");
-            Player p = ActionManager.instance.CurrentPlayer;
-            p.ActualCell = Gameboard.instance.Cells[(p.ActualCell.Index+NumberOfSteps)%40];
-            if ((p.ActualCell.Index + NumberOfSteps) / 40 > 0)
+            Player p = ActionManager.Instance.CurrentPlayer;
+            p.CurrentCell = Gameboard.Instance.Cells[(p.CurrentCell.Index + NumberOfSteps) % 40];
+            if ((p.CurrentCell.Index + NumberOfSteps) / 40 > 0)
             {
                 ActionManager.AddAction(new GetSalaryAction());
             }
 
-            PrintCell(p.ActualCell);
-            ActionManager.AddAction(new AttemptToBuyAction());
+            PrintCell(p.CurrentCell);
+            ActionManager.AddAction(p.CurrentCell.CellAction);
         }
 
         public override bool IsLegalMove()
         {
-            if (ActionManager.instance.CurrentPlayer.IsInJail)
+            if (ActionManager.Instance.CurrentPlayer.IsInJail)
             {
-                ActionManager.instance.CurrentPlayer.TurnsInJail++;
+                ActionManager.Instance.CurrentPlayer.TurnsInJail++;
                 return false;
             }
             return true;
@@ -62,14 +62,14 @@ namespace Monopoly_Project
     public class GoToJailAction : MonopolyAction
     {
         public int NumberOfSteps { get; set; }
-        public GoToJailAction(){}
+        public GoToJailAction() { }
 
         public override void Execute()
         {
             Console.WriteLine("You have gotten 3 doubles in a row, therefore you are caught by the police and " +
                 "are sent to jail");
-            Player p = ActionManager.instance.CurrentPlayer;
-            p.ActualCell = Gameboard.JailCell;
+            Player p = ActionManager.Instance.CurrentPlayer;
+            p.CurrentCell = Gameboard.JailCell;
             p.IsInJail = true;
         }
     }
@@ -81,8 +81,8 @@ namespace Monopoly_Project
 
         public override void Execute()
         {
-            ActionManager.instance.CurrentPlayer.Cash += Player.SALARY;
-            Console.WriteLine("Player " + ActionManager.instance.CurrentPlayer.Name + " has now " + ActionManager.instance.CurrentPlayer.Cash + "$");
+            ActionManager.Instance.CurrentPlayer.Cash += Player.SALARY;
+            Console.WriteLine("Player " + ActionManager.Instance.CurrentPlayer.Name + " has now " + ActionManager.Instance.CurrentPlayer.Cash + "$");
         }
     }
     public class AttemptToBuyAction : MonopolyAction
@@ -91,9 +91,9 @@ namespace Monopoly_Project
 
         public override void Execute()
         {
-            Player p =ActionManager.instance.CurrentPlayer;
-            PropertyCell propertyCell = (PropertyCell)p.ActualCell;
-            Console.WriteLine("Player " + ActionManager.instance.CurrentPlayer.Name + " has now " + ActionManager.instance.CurrentPlayer.Cash + "$\n");
+            Player p = ActionManager.Instance.CurrentPlayer;
+            PropertyCell propertyCell = (PropertyCell)p.CurrentCell;
+            Console.WriteLine("Player " + ActionManager.Instance.CurrentPlayer.Name + " has now " + ActionManager.Instance.CurrentPlayer.Cash + "$\n");
             if (p.Cash >= propertyCell.Value)
             {
                 ActionManager.AddAction(new BuyPropertyAction());
@@ -103,6 +103,11 @@ namespace Monopoly_Project
                 Console.WriteLine("You don't have enough cash to attempt any transaction in this street.");
             }
         }
+
+        public override bool IsLegalMove()
+        {
+            return ((ActionManager.Instance.CurrentPlayer.CurrentCell).Type == CellType.PropertyCell);
+        }
     }
 
     public class BuyPropertyAction : MonopolyAction
@@ -111,9 +116,9 @@ namespace Monopoly_Project
 
         public override void Execute()
         {
-            Player p = ActionManager.instance.CurrentPlayer;
-            PropertyCell propertyCell = (PropertyCell)p.ActualCell;
-            if ( propertyCell.property == null)
+            Player p = ActionManager.Instance.CurrentPlayer;
+            PropertyCell propertyCell = (PropertyCell)p.CurrentCell;
+            if (propertyCell.Landlord == null)
             {
                 Console.WriteLine("\nProperty of : No one\nDo you want to buy this street?\nTap Enter to buy, anything else to proceed.");
                 var input = Console.ReadKey();
@@ -122,31 +127,36 @@ namespace Monopoly_Project
                     default:
                         break;
                     case ConsoleKey.Enter:
-                        propertyCell.property = ActionManager.instance.CurrentPlayer;
-                        propertyCell.property.Cash -= propertyCell.Value;
-                        Console.WriteLine("Done !\nYou have now : " + ActionManager.instance.CurrentPlayer.Cash + "\n");
+                        propertyCell.Landlord = ActionManager.Instance.CurrentPlayer;
+                        propertyCell.Landlord.Cash -= propertyCell.Value;
+                        Console.WriteLine("Done !\nYou now have : " + ActionManager.Instance.CurrentPlayer.Cash + "$\n");
                         break;
                 }
             }
             else
             {
-                Console.WriteLine("Property of : "+propertyCell.property.Name + "\n");
+                Console.WriteLine("Property of : " + propertyCell.Landlord.Name + "\n");
                 if (p.Cash >= 2 * propertyCell.Value)
                 {
-                    Console.WriteLine("Do you want to buy this street for the price of "+propertyCell.Value*2+"?\nTap Enter to buy, anything else to proceed.");
-                    var input = Console.ReadKey();
-                    switch (input.Key)
+                    Console.WriteLine("Do you want to buy this street for the price of " + propertyCell.Value * 2 + "?\nTap Enter to buy, anything else to cancel.");
+                    ConsoleKey input = Console.ReadKey().Key;
+                    switch (input)
                     {
                         default:
                             break;
                         case ConsoleKey.Enter:
-                            propertyCell.property = ActionManager.instance.CurrentPlayer;
-                            propertyCell.property.Cash -= 2*propertyCell.Value; 
-                            Console.WriteLine("Done !\nYou have now : " + ActionManager.instance.CurrentPlayer.Cash + "\n");
+                            propertyCell.Landlord = ActionManager.Instance.CurrentPlayer;
+                            propertyCell.Landlord.Cash -= 2 * propertyCell.Value;
+                            Console.WriteLine("Done !\nYou have now : " + ActionManager.Instance.CurrentPlayer.Cash + "\n");
                             break;
                     }
                 }
             }
+        }
+
+        public override bool IsLegalMove()
+        {
+            return ((ActionManager.Instance.CurrentPlayer.CurrentCell).Type == CellType.PropertyCell);
         }
 
     }
@@ -156,10 +166,10 @@ namespace Monopoly_Project
 
         public override void Execute()
         {
-            Console.WriteLine(ActionManager.instance.CurrentPlayer.Name + "'s turn to roll the dices, press any key to proceed");
+            Console.WriteLine(ActionManager.Instance.CurrentPlayer.Name + "'s turn to roll the dices, press any key to proceed");
             Console.ReadKey();
             int moveBy = Dices.Roll();
-            if (ActionManager.instance.CurrentPlayer.ConsecutiveDoubles != 0)
+            if (ActionManager.Instance.CurrentPlayer.ConsecutiveDoubles != 0)
             {
                 Console.WriteLine("Double " + moveBy / 2 + " !");
             }
@@ -173,7 +183,53 @@ namespace Monopoly_Project
 
         public override void Execute()
         {
-            ActionManager.instance.CurrentPlayer.IsInJail = false;
+            ActionManager.Instance.CurrentPlayer.IsInJail = false;
+        }
+    }
+
+    public class PayAction : MonopolyAction
+    {
+        public Player ToPay { get; set; }
+        public Player ToDebit { get; set; }
+        public double Value { get; set; }
+        public PayAction(Player toPay, Player toDebit, double value)
+        {
+            ToPay = toPay;
+            ToDebit = toDebit;
+            Value = value;
+        }
+
+        public override void Execute()
+        {
+            if (ToDebit.Cash > Value)
+            {
+                ToPay.Cash += Value;
+                ToDebit.Cash -= Value;
+            } else
+            {
+                ToPay.Cash += ToDebit.Cash;
+                ToDebit.Cash = 0;
+                ToDebit.Bankrupt = true;
+            }
+            Console.WriteLine("New balances :");
+            Console.WriteLine(ToPay.Name + " now has " + ToPay.Cash + "$");
+            Console.WriteLine(ToDebit.Name + " now has " + ToDebit.Cash + "$");
+        }
+    }
+
+    public class ResolvePropertyAction : MonopolyAction
+    {
+        public ResolvePropertyAction() { }
+        public override void Execute()
+        {
+            Player p = ActionManager.Instance.CurrentPlayer;
+            PropertyCell c = p.CurrentCell as PropertyCell;
+
+            if (c.Landlord != null)
+            {
+                ActionManager.AddImmediateAction(new PayAction(c.Landlord, p, c.GetValue()));
+            }
+            ActionManager.AddAction(new AttemptToBuyAction());
         }
     }
 

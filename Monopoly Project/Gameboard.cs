@@ -7,7 +7,7 @@ namespace Monopoly_Project
 {
     public class Gameboard
     {
-        public static Gameboard instance;
+        public static Gameboard Instance;
 
         public Cell[] Cells { get; internal set; }
         public static Cell StartCell;
@@ -15,12 +15,12 @@ namespace Monopoly_Project
 
         public static void Init()
         {
-            instance = new Gameboard{Cells = new Cell[40]};
+            Instance = new Gameboard{Cells = new Cell[40]};
 
-            InstantiatePropertyCells(instance.Cells);
+            InstantiatePropertyCells(Instance.Cells);
 
-            StartCell = instance.Cells[0];
-            JailCell = instance.Cells[10];
+            StartCell = Instance.Cells[0];
+            JailCell = Instance.Cells[10];
         }
 
         public static void InstantiatePropertyCells(Cell[] Cells)
@@ -36,7 +36,7 @@ namespace Monopoly_Project
                 {
                     ((PropertyCell)Cells[i]).Value = Convert.ToDouble(lines[i].Split(',')[1]);
                     ((PropertyCell)Cells[i]).StreetName = lines[i].Split(',')[2];
-                    ((PropertyCell)Cells[i]).property = null;
+                    ((PropertyCell)Cells[i]).Landlord = null;
                 }
             }
         }

@@ -13,16 +13,17 @@ namespace Monopoly_Project
             Random rand = new Random();
             int dice1 = rand.Next(1, 7);
             int dice2 = rand.Next(1, 7);
-            //for testing doubles
-            //dice2 = dice1;
+            //for testing
+            dice1 = 4;
+            dice2 = dice1;
 
             if (dice1 == dice2)
             {
-                ActionManager.instance.CurrentPlayer.ConsecutiveDoubles++;
+                ActionManager.Instance.CurrentPlayer.ConsecutiveDoubles++;
             }
             else
             {
-                ActionManager.instance.CurrentPlayer.ConsecutiveDoubles = 0;
+                ActionManager.Instance.CurrentPlayer.ConsecutiveDoubles = 0;
             }
             return dice1 + dice2;
         }

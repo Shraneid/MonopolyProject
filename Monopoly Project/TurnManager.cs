@@ -35,7 +35,7 @@ namespace Monopoly_Project
                 {
                     PlayerIndex = PlayerIndex++ % Players.Length;
                 }
-                ActionManager.instance.CurrentPlayer = Players[PlayerIndex];
+                ActionManager.Instance.CurrentPlayer = Players[PlayerIndex];
                 ActionManager.PlayTurn();
 
                 EndTurn();
@@ -45,7 +45,7 @@ namespace Monopoly_Project
         private static void EndTurn()
         {
             Instance.Turn++;
-            ActionManager.instance.Actions.Clear();
+            ActionManager.Instance.Actions.Clear();
         }
 
         private static void InitPlayers()
@@ -79,6 +79,18 @@ namespace Monopoly_Project
             {
                 return true;
             }
+        }
+
+        public static Player GetPlayer(String name)
+        {
+            for(int i = 0; i < Instance.Players.Length; i++)
+            {
+                if (Instance.Players[i].Name == name)
+                {
+                    return Instance.Players[i];
+                }
+            }
+            return null;
         }
     }
 }

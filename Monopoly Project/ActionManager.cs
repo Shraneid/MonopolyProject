@@ -8,48 +8,48 @@ namespace Monopoly_Project
 {
     public class ActionManager
     {
-        public static ActionManager instance;
+        public static ActionManager Instance;
         public Player CurrentPlayer { get; set; }
         public List<MonopolyAction> Actions { get; set; }
 
         public static void Init()
         {
-            instance = new ActionManager();
-            instance.Actions = new List<MonopolyAction>();
+            Instance = new ActionManager();
+            Instance.Actions = new List<MonopolyAction>();
         }
 
         internal static void PlayTurn()
         {
             AddAction(new RollDiceAction());
 
-            instance.ResolveActions();
+            Instance.ResolveActions();
         }
 
         internal void ResolveActions()
         {
             //RUN ALL ACTIONS UNTIL EMPTY
-            while (instance.Actions.Count != 0)
+            while (Instance.Actions.Count != 0)
             {
                 //EXECUTE THE ACTUAL ACTION
-                instance.Actions[0].Execute();
+                Instance.Actions[0].Execute();
 
-                Player p = instance.CurrentPlayer;
+                Player p = Instance.CurrentPlayer;
 
                 //MANAGER OF SUCCESSIVE DOUBLE
-                if (instance.Actions[0].GetType() == typeof(MoveAction))
+                if (Instance.Actions[0].GetType() == typeof(MoveAction))
                 {
                     if (p.ConsecutiveDoubles != 0)
                     {
                         if (p.ConsecutiveDoubles == 3)
                         {
                             p.ConsecutiveDoubles = 0;
-                            instance.Actions.Clear();
+                            Instance.Actions.Clear();
                             AddAction(new DummyAction());
                             AddAction(new GoToJailAction());
                         }
                         else if (p.IsInJail)
                         {
-                            AddInstantAction(new GetOutOfJailAction());
+                            AddImmediateAction(new GetOutOfJailAction());
                         }
                         else
                         {
@@ -62,13 +62,13 @@ namespace Monopoly_Project
                 //from the double rule if he gets out of prison
                 if (p.TurnsInJail >= 3)
                 {
-                    AddInstantAction(new GetOutOfJailAction());
+                    AddImmediateAction(new GetOutOfJailAction());
                 }
 
                 //REMOVING THE ACTION WHEN IT WAS MANAGED (IT IS NOT POSSIBLE TO USE A QUEUE AS WE NEED
-                //TO KEEP A ROLLDICEACTION AT THE END OF THE LIST TO ENSURE THAT THE PLAYERS PLAYS TWICE,
+                //TO KEEP A ROLLDICEACTION AT THE END OF THE LIST TO ENSURE THAT THE PLAYERS PLAYS TWICE ON DOUBLE,
                 //CF THE ADD ACTION METHOD FURTHER DOWN)
-                instance.Actions.RemoveAt(0);
+                Instance.Actions.RemoveAt(0);
             }
         }
 
@@ -80,18 +80,18 @@ namespace Monopoly_Project
             //one, we need to make sure it is taken into account here as we keep the rolldice as the last action that should
             //resolve). This is the reason we can't use a Queue instead of a List (or we could by overriding the Enqueue() 
             //method but it wouldn't make much sense and we'd loose the utility of a Queue)
-            if (instance.Actions.Count > 1 && instance.Actions[instance.Actions.Count - 1].GetType() == typeof(RollDiceAction))
+            if (Instance.Actions.Count > 1 && Instance.Actions[Instance.Actions.Count - 1].GetType() == typeof(RollDiceAction))
             {
-                instance.Actions.Insert(instance.Actions.Count - 1, a);
+                Instance.Actions.Insert(Instance.Actions.Count - 1, a);
             }
             else
             {
-                instance.Actions.Add(a);
+                Instance.Actions.Add(a);
             }
         }
-        public static void AddInstantAction(MonopolyAction a)
+        public static void AddImmediateAction(MonopolyAction a)
         {
-            instance.Actions.Insert(0, a);
+            Instance.Actions.Insert(0, a);
         }
     }
 }

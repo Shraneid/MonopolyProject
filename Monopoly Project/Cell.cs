@@ -76,7 +76,8 @@ namespace Monopoly_Project
         public CellType Type { get; set; }
         public MonopolyAction Action { get; set; }
         public int Index { get; set; }
-
+        public MonopolyAction CellAction { get; set; }
+        
         internal static Cell GetCell(int index, CellType cellType)
         {
             Cell cell = null;
@@ -108,12 +109,17 @@ namespace Monopoly_Project
         {
             public double Value { get; set; }
             public String StreetName { get; set; }
-
-            public Player property { get; set; }
+            public Player Landlord { get; set; }
 
             public PropertyCell()
             {
                 Type = CellType.PropertyCell;
+                CellAction = new ResolvePropertyAction();
+            }
+
+            internal double GetValue()
+            {
+                return Value;
             }
         }
 
@@ -124,6 +130,7 @@ namespace Monopoly_Project
             public StartCell()
             {
                 Type = CellType.StartCell;
+                CellAction = new DummyAction();
             }
         }
         public class JailCell : Cell
@@ -131,6 +138,7 @@ namespace Monopoly_Project
             public JailCell()
             {
                 Type = CellType.JailCell;
+                CellAction = new DummyAction();
             }
         }
         public class GoToJailCell : Cell
@@ -138,6 +146,7 @@ namespace Monopoly_Project
             public GoToJailCell()
             {
                 Type = CellType.GoToJailCell;
+                CellAction = new GoToJailAction();
             }
         }
         public class FreeParking : Cell
@@ -145,6 +154,7 @@ namespace Monopoly_Project
             public FreeParking()
             {
                 Type = CellType.FreeParking;
+                CellAction = new DummyAction();
             }
         }
     }

@@ -8,7 +8,7 @@ namespace Monopoly_Project
         public static double SALARY = 200;
 
         public double Cash { get; set; }
-        public Cell ActualCell { get; set; }
+        public Cell CurrentCell { get; set; }
         public string Name { get; set; }
         public bool IsInJail { get; set; }
         public int TurnsInJail { get; set; }
@@ -18,7 +18,7 @@ namespace Monopoly_Project
         public Player(string name)
         {
             Cash = BASE_CASH;
-            ActualCell = Gameboard.StartCell;
+            CurrentCell = Gameboard.StartCell;
             Name = name;
             Bankrupt = false;
         }
@@ -26,7 +26,7 @@ namespace Monopoly_Project
         public Player(double cash, Cell actualCell, string name)
         {
             Cash = cash;
-            ActualCell = actualCell;
+            CurrentCell = actualCell;
             Name = name;
         }
         
