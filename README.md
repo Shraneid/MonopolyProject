@@ -1,8 +1,9 @@
 # Monopoly Project 
 ![](http://c.shld.net/rpx/i/s/i/spin/10000351/prod_12303494912??hei=64&wid=64&qlt=50)
-The objective of the project isto simulatea simplified version of theMonopoly™ game
+The objective of the project is to simulate a simplified version of the Monopoly™ game
 
-A set of players is given, each with name and initial position. Dices are rolled and players’positions on the game board will change.The game is played on a circular game board, composed of 40 positions on the board, indexed from 0 to 39. If a player reaches position 39 and still needs to move forward, he'll continue from position 0. In other words, positions 38, 39, 0, 1, 2 are contiguous
+# Introduction
+A set of players is given, each with name and initial position. Dices are rolled and players positions on the game board will change. The game is played on a circular game board, composed of 40 positions on the board, indexed from 0 to 39. If a player reaches position 39 and still needs to move forward, he'll continue from position 0. In other words, positions 38, 39, 0, 1, 2 are contiguous
 
 Each player rolls two dice and moves forward by a number of positions equal to
 the sum of the numbers told by the two dice.
@@ -26,9 +27,19 @@ If either (a) or (b) happens in the player's turn, then he moves forward by the
 sum of the dice rolled positions and his turn ends. He does not roll the dice again
 even if he has rolled a both dice with the same value.
 # Our implementation 
+
+### Prerequisites 
+* C# Programming
+* Object Oriented Programming
+* Use of Git
+
+### Methods used
 We implemented several design pattern : 
 FACTORY PATTERN  :
 * Players
+Players are described by several features : 
+They have cash, a cell (actualcell), a name, we can now if they are in jail, the number of turn left until he leaves jail, the number of consecutive doubles, and if he bankrupted.
+
 ```cs
         public static Player GetNewPlayer(String name)
         {
@@ -38,6 +49,7 @@ FACTORY PATTERN  :
 ```
 * Cells for Gameboard where we have to distinguish every cell types (Jail, Start, Free parking, and other cells that contains buildings, cost to buy etc...)
 * We actually created a text file containing every of the 40 Cells with every street name and cost of it.
+For each cell, we can access to its property (Value of the street, name of the street) with the instance of PropertyCell, an inherited class from Cell. This includes every cell except for Startcell, Jailcell,GoToJailCell and FreeParking which have an exclusive class.
 ```cs
         internal static Cell GetCell(int index, CellType cellType)
         {
@@ -93,9 +105,6 @@ MVC PATTERN :
             Random rand = new Random();
             int dice1 = rand.Next(1, 7);
             int dice2 = rand.Next(1, 7);
-            //for testing doubles
-            //dice2 = dice1;
-
             if (dice1 == dice2)
             {
                 ActionManager.instance.CurrentPlayer.ConsecutiveDoubles++;
@@ -111,6 +120,8 @@ MVC PATTERN :
 To play this game, we had to make a loop that would stop whenever a player wins, which means that there's only one player left. 
 We also had to take into account the player's turns and actions.
 That's why we needed a strategy pattern that would include two new classes : TurnManager and ActionManager.
+Turnmanager is a static class that will help see which player's turn it is and how to move on to the next player.
+ActionManager stacks every actions related to a player into a list of "MonopolyAction" instances that will be emptied every turn.
 ```cs
     public class TurnManager
     {
@@ -140,7 +151,7 @@ That's why we needed a strategy pattern that would include two new classes : Tur
         }
 }
 ```
-In addition, A monopoly Action Class will analyze every of the action assigned to a player's turn and check if it's a legal move or not.
+In addition, a monopoly Action Class will analyze every of the action assigned to a player's turn and check if it's a legal move or not.
 ```cs
     public abstract class MonopolyAction
     {
@@ -150,7 +161,8 @@ In addition, A monopoly Action Class will analyze every of the action assigned t
             return true;
         }
 ```
-And for every instanciated actions, we create a inherited class from monopoly action that would have two methods : Islegalmove() and Execute(). For example : 
+And for every instanciated actions, we create a inherited class from monopoly action that would have two methods : Islegalmove() and Execute(). 
+For example this a class for every time a player goes into the jail cell : 
 ```cs
     public class GoToJailAction : MonopolyAction
     {
@@ -167,14 +179,8 @@ And for every instanciated actions, we create a inherited class from monopoly ac
         }
     }
 ```
-
-### Requirements 
-
-* Microsoft Visual Studio 2019
-* Markdown
-* Git
-
-### Installation
-Repository : https://github.com/Shraneid/MonopolyProject.git
+### Built With 
+Microsoft Visual Studio 2019 
+Application Console with .NET Framework 4.7.2
 
 
