@@ -48,7 +48,6 @@ They have cash, a cell (actualcell), a name, we can now if they are in jail, the
         }
 ```
 * Cells for Gameboard where we have to distinguish every cell types (Jail, Start, Free parking, and other cells that contains buildings, cost to buy etc...)
-* We actually created a text file containing every of the 40 Cells with every street name and cost of it.
 For each cell, we can access to its property (Value of the street, name of the street) with the instance of PropertyCell, an inherited class from Cell. This includes every cell except for Startcell, Jailcell,GoToJailCell and FreeParking which have an exclusive class.
 ```cs
         internal static Cell GetCell(int index, CellType cellType)
@@ -80,6 +79,8 @@ For each cell, we can access to its property (Value of the street, name of the s
 ```
 SINGLETON PATTERN:
 * For the gameboard 
+* We actually created a text file containing every of the 40 Cells with every street name and cost of it.
+*InstantiatePropertyCells function will read the file and instanciate every cells according to its property.
 ```cs
         public static void Init()
         {
@@ -180,7 +181,8 @@ For example this a class for every time a player goes into the jail cell :
     }
 ```
 ### Built With 
-Microsoft Visual Studio 2019 
-Application Console with .NET Framework 4.7.2
+
+* Microsoft Visual Studio 2019 
+* Application Console with .NET Framework 4.7.2
 
 
