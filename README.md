@@ -36,9 +36,8 @@ even if he has rolled a both dice with the same value.
 ### Methods used
 We implemented several design pattern : 
 FACTORY PATTERN  :
-* Players
-Players are described by several features : 
-They have cash, a cell (actualcell), a name, we can now if they are in jail, the number of turn left until he leaves jail, the number of consecutive doubles, and if he bankrupted.
+* Players are described by several features : 
+They have cash, a cell (actualcell), a name, we can know if they are in jail, the number of turns left until he leaves jail, the number of consecutive doubles, and if he is bankrupted.
 
 ```cs
         public static Player GetNewPlayer(String name)
@@ -48,7 +47,7 @@ They have cash, a cell (actualcell), a name, we can now if they are in jail, the
         }
 ```
 * Cells for Gameboard where we have to distinguish every cell types (Jail, Start, Free parking, and other cells that contains buildings, cost to buy etc...)
-For each cell, we can access to its property (Value of the street, name of the street) with the instance of PropertyCell, an inherited class from Cell. This includes every cell except for Startcell, Jailcell,GoToJailCell and FreeParking which have an exclusive class.
+For each cell, we can access its property (Value of the street, name of the street) with the instance of PropertyCell, an inherited class from Cell. This includes every cell except for Startcell, Jailcell,GoToJailCell and FreeParking which have an exclusive class.
 ```cs
         internal static Cell GetCell(int index, CellType cellType)
         {
