@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿//using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +30,7 @@ namespace Monopoly_Project
             Console.ReadKey();
         }
 
+        /*
         private static void SaveGame(Gameboard g)
         {
             int count = 0;
@@ -57,6 +58,6 @@ namespace Monopoly_Project
                 });
             }
             return null;
-        }
+        }*/
     }
 }

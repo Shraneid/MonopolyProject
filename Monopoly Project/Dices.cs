@@ -14,7 +14,8 @@ namespace Monopoly_Project
             int dice1 = rand.Next(1, 7);
             int dice2 = rand.Next(1, 7);
             //for testing doubles
-            //dice2 = dice1;
+            dice1 = 15;
+            dice2 = dice1;
 
             if (dice1 == dice2)
             {

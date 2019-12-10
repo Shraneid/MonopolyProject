@@ -45,7 +45,7 @@ namespace Monopoly_Project
                             p.ConsecutiveDoubles = 0;
                             instance.Actions.Clear();
                             AddAction(new DummyAction());
-                            AddAction(new GoToJailAction());
+                            AddAction(new DoublesToJailAction());
                         }
                         else if (p.IsInJail)
                         {
@@ -63,6 +63,15 @@ namespace Monopoly_Project
                 if (p.TurnsInJail >= 3)
                 {
                     AddInstantAction(new GetOutOfJailAction());
+                }
+
+                //If you end up on the GoToJailCell, we need to remove all actions in case you arrived
+                //on it by a double on a card
+                if (p.ActualCell == Gameboard.GoToJailCell)
+                {
+                    instance.Actions.Clear();
+                    AddAction(new DummyAction());
+                    AddAction(new GoToJailAction());
                 }
 
                 //REMOVING THE ACTION WHEN IT WAS MANAGED (IT IS NOT POSSIBLE TO USE A QUEUE AS WE NEED

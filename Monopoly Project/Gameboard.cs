@@ -12,12 +12,13 @@ namespace Monopoly_Project
         public Cell[] Cells { get; internal set; }
         public static Cell StartCell;
         public static Cell JailCell;
+        public static Cell GoToJailCell;
 
         public static void Init()
         {
-            instance = new Gameboard {};
+            instance = new Gameboard { };
 
-            instance.Cells = Program.LoadGame();
+            //instance.Cells = Program.LoadGame();
             /*try { }
             catch
             {*/
@@ -27,8 +28,10 @@ namespace Monopoly_Project
 
                 InstantiateCells(instance.Cells);
             }
-                StartCell = instance.Cells[0];
-                JailCell = instance.Cells[10];
+
+            StartCell = instance.Cells[0];
+            JailCell = instance.Cells[10];
+            GoToJailCell = instance.Cells[30];
             //}
         }
 
@@ -36,7 +39,7 @@ namespace Monopoly_Project
         {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\..\\CellsConfig.monopoly");
             string[] lines = File.ReadAllLines(path);
-                                                    
+
             for (int i = 0; i < Cells.Length; i++)
             {
                 CellType type = Cell.GetType(lines[i].Split(',')[0]);

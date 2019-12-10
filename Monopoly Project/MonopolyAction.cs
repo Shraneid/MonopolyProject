@@ -60,8 +60,20 @@ namespace Monopoly_Project
 
     public class GoToJailAction : MonopolyAction
     {
-        public int NumberOfSteps { get; set; }
-        public GoToJailAction(){}
+        public GoToJailAction() { }
+
+        public override void Execute()
+        {
+            Console.WriteLine("You are caught by the police and sent to jail");
+            Player p = ActionManager.instance.CurrentPlayer;
+            p.ActualCell = Gameboard.JailCell;
+            p.IsInJail = true;
+        }
+    }
+
+    public class DoublesToJailAction : MonopolyAction
+    {
+        public DoublesToJailAction() { }
 
         public override void Execute()
         {
