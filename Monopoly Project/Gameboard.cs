@@ -15,15 +15,24 @@ namespace Monopoly_Project
 
         public static void Init()
         {
-            instance = new Gameboard{Cells = new Cell[40]};
+            instance = new Gameboard {};
 
-            InstantiatePropertyCells(instance.Cells);
+            instance.Cells = Program.LoadGame();
+            /*try { }
+            catch
+            {*/
+            if (instance.Cells == null)
+            {
+                instance.Cells = new Cell[40];
 
-            StartCell = instance.Cells[0];
-            JailCell = instance.Cells[10];
+                InstantiateCells(instance.Cells);
+            }
+                StartCell = instance.Cells[0];
+                JailCell = instance.Cells[10];
+            //}
         }
 
-        public static void InstantiatePropertyCells(Cell[] Cells)
+        public static void InstantiateCells(Cell[] Cells)
         {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "..\\..\\..\\CellsConfig.monopoly");
             string[] lines = File.ReadAllLines(path);

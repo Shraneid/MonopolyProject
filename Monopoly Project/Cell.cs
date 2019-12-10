@@ -2,6 +2,7 @@
 
 namespace Monopoly_Project
 {
+    [Serializable]
     public abstract class Cell
     {
         public enum CellType
@@ -13,6 +14,8 @@ namespace Monopoly_Project
             FreeParking,
             Bug
         }
+
+        public Cell(){}
 
         public static String ToString(CellType cellType)
         {
