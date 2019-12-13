@@ -104,7 +104,7 @@ static void Main(string[] args)
 ```
 * For the gameboard 
 * We actually created a text file containing every of the 40 Cells with every street name and cost of it.
-*InstantiatePropertyCells function will read the file and instanciate every cells according to its property.
+* InstantiatePropertyCells function will read the file and instanciate every cells according to its property.
 
 To play this game, we had to make a loop that would stop whenever a player wins, which means that there's only one player left. 
 We also had to take into account the player's turns and actions.
