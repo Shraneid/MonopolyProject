@@ -67,6 +67,11 @@ namespace Monopoly_Project
                     AddInstantAction(new DummyAction());
                 }
 
+                if (p.IsInJail)
+                {
+                    p.TurnsInJail++;
+                }
+
                 //If you end up on the GoToJailCell, we need to remove all actions in case you arrived
                 //on it by a double on a card
                 if (p.ActualCell == Gameboard.GoToJailCell)

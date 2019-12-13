@@ -50,7 +50,6 @@ namespace Monopoly_Project
         {
             if (ActionManager.instance.CurrentPlayer.IsInJail)
             {
-                ActionManager.instance.CurrentPlayer.TurnsInJail++;
                 return false;
             }
             return true;

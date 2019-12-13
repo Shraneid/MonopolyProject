@@ -40,6 +40,7 @@ namespace Monopoly_Project
 
                 EndTurn();
             }
+            Console.WriteLine();
         }
 
         private static void EndTurn()
