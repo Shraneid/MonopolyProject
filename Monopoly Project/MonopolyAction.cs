@@ -50,9 +50,27 @@ namespace Monopoly_Project
         {
             if (ActionManager.instance.CurrentPlayer.IsInJail)
             {
+                Console.WriteLine("You can't move right now");
                 return false;
             }
             return true;
+        }
+    }
+
+    public class MoveOutOfJail : MonopolyAction
+    {
+        public int NumberOfSteps { get; set; }
+        public MoveOutOfJail(int numberOfSteps)
+        {
+            NumberOfSteps = numberOfSteps;
+        }
+
+        public override void Execute()
+        {
+            Console.WriteLine("You move forward " + NumberOfSteps + " cells");
+            Player p = ActionManager.instance.CurrentPlayer;
+            p.ActualCell = Gameboard.instance.Cells[(p.ActualCell.Index + NumberOfSteps) % 40];
+            PrintCell(p.ActualCell);
         }
     }
 

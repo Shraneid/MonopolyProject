@@ -14,8 +14,7 @@ namespace Monopoly_Project
 
         public static void Init()
         {
-            instance = new ActionManager();
-            instance.Actions = new List<MonopolyAction>();
+            instance = new ActionManager { Actions = new List<MonopolyAction>() };
         }
 
         internal static void PlayTurn()
@@ -27,13 +26,21 @@ namespace Monopoly_Project
 
         internal void ResolveActions()
         {
+            Player p = instance.CurrentPlayer;
+            
             //RUN ALL ACTIONS UNTIL EMPTY
-            while (instance.Actions.Count != 0)
+            while (instance.Actions.Count > 0)
             {
-                //EXECUTE THE ACTUAL ACTION
-                instance.Actions[0].Execute();
+                if (instance.Actions[0].GetType() == typeof(RollDiceAction) && p.ConsecutiveDoubles != 0)
+                {
+                    
+                }
 
-                Player p = instance.CurrentPlayer;
+                //EXECUTE THE ACTUAL ACTION
+                if (instance.Actions[0].IsLegalMove())
+                {
+                    instance.Actions[0].Execute();
+                }
 
                 //MANAGER OF SUCCESSIVE DOUBLE
                 if (instance.Actions[0].GetType() == typeof(MoveAction))
@@ -67,11 +74,6 @@ namespace Monopoly_Project
                     AddInstantAction(new DummyAction());
                 }
 
-                if (p.IsInJail)
-                {
-                    p.TurnsInJail++;
-                }
-
                 //If you end up on the GoToJailCell, we need to remove all actions in case you arrived
                 //on it by a double on a card
                 if (p.ActualCell == Gameboard.GoToJailCell)
@@ -87,6 +89,11 @@ namespace Monopoly_Project
                 //TO KEEP A ROLLDICEACTION AT THE END OF THE LIST TO ENSURE THAT THE PLAYERS PLAYS TWICE,
                 //CF THE ADD ACTION METHOD FURTHER DOWN)
                 instance.Actions.RemoveAt(0);
+            }
+
+            if (p.IsInJail)
+            {
+                p.TurnsInJail++;
             }
         }
 

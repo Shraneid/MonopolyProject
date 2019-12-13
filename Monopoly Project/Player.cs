@@ -18,8 +18,11 @@ namespace Monopoly_Project
         public Player(string name)
         {
             Cash = BASE_CASH;
-            ActualCell = Gameboard.StartCell;
+            ActualCell = Gameboard.JailCell;
             Name = name;
+            IsInJail = true;
+            TurnsInJail = 0;
+            ConsecutiveDoubles = 0;
             Bankrupt = false;
         }
 
