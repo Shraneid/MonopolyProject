@@ -5,7 +5,7 @@ The objective of the project is to simulate a simplified version of the Monopoly
 # Introduction
 A set of players is given, each with name and initial position. Dices are rolled and players positions on the game board will change. The game is played on a circular game board, composed of 40 positions on the board, indexed from 0 to 39. If a player reaches position 39 and still needs to move forward, he'll continue from position 0. In other words, positions 38, 39, 0, 1, 2 are contiguous
 
-Each player rolls two dice and moves forward by a number of positions equal to
+Each player rolls two dices and moves forward by a number of positions equal to
 the sum of the numbers told by the two dice.
 A player turn ends after moving.
 The same position can be occupied by more than one player.
@@ -46,6 +46,7 @@ They have cash, a cell (actualcell), a name, we can know if they are in jail, th
             return p;
         }
 ```
+
 * Cells for Gameboard where we have to distinguish every cell types (Jail, Start, Free parking, and other cells that contains buildings, cost to buy etc...)
 For each cell, we can access its property (Value of the street, name of the street) with the instance of PropertyCell, an inherited class from Cell. This includes every cell except for Startcell, Jailcell,GoToJailCell and FreeParking which have an exclusive class.
 ```cs
@@ -163,6 +164,7 @@ In addition, a monopoly Action Class will analyze every of the action assigned t
 ```
 And for every instanciated actions, we create a inherited class from monopoly action that would have two methods : Islegalmove() and Execute(). 
 For example this a class for every time a player goes into the jail cell : 
+<a href="https://ibb.co/Mn41yJ8"><img src="https://i.ibb.co/rkSpKXb/uml.png" alt="uml" border="0"></a>
 ```cs
     public class GoToJailAction : MonopolyAction
     {
