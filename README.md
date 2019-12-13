@@ -87,6 +87,7 @@ For each cell, we can access its property (Value of the street, name of the stre
         }
 ```
 SINGLETON PATTERN:
+
 We had to use 3 different Singleton Patterns.
 ```cs
 static void Main(string[] args)
@@ -142,7 +143,7 @@ That's why we needed a strategy pattern that would include two new classes : Tur
 MVC PATTERN : 
 * Model for our players/cells/gameboard/dice
 * View with the command console
-* Controller with our Turn Manager, Action Manager, Monopoly Action classes
+* Controller with our Turn Manager, Action Manager
 
 * Dice class :
 ```cs
