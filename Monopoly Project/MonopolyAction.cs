@@ -126,7 +126,14 @@ namespace Monopoly_Project
             {
                 Console.WriteLine("Double " + moveBy / 2 + " !");
             }
-            ActionManager.AddAction(new MoveAction(moveBy));
+            if (ActionManager.instance.CurrentPlayer.ConsecutiveDoubles != 0 && ActionManager.instance.CurrentPlayer.IsInJail)
+            {
+                ActionManager.AddAction(new MoveOutOfJail(moveBy));
+            }
+            else
+            {
+                ActionManager.AddAction(new MoveAction(moveBy));
+            }
         }
     }
 

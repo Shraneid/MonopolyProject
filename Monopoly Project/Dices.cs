@@ -13,15 +13,16 @@ namespace Monopoly_Project
             Random rand = new Random();
             int dice1 = rand.Next(1, 7);
             int dice2 = rand.Next(1, 7);
-            //for testing doubles
+            //to test for doubles
             //dice1 = 6;
-            dice2 = dice1;
+            //dice2 = dice1;
 
             if (dice1 == dice2)
             {
                 ActionManager.instance.CurrentPlayer.ConsecutiveDoubles++;
                 if (ActionManager.instance.CurrentPlayer.IsInJail)
                 {
+                    ActionManager.instance.Actions.Clear();
                     ActionManager.AddInstantAction(new GetOutOfJailAction());
                     ActionManager.AddInstantAction(new DummyAction());
                 }
