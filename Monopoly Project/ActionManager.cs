@@ -38,11 +38,6 @@ namespace Monopoly_Project
             //RUN ALL ACTIONS UNTIL EMPTY
             while (instance.Actions.Count > 0)
             {
-                /*if (instance.Actions[0].GetType() == typeof(RollDiceAction) && p.ConsecutiveDoubles != 0)
-                {
-                    
-                }*/
-
                 //EXECUTE THE ACTUAL ACTION
                 if (instance.Actions[0].IsLegalMove())
                 {

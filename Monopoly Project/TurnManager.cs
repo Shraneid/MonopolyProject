@@ -16,9 +16,11 @@ namespace Monopoly_Project
 
         public static void Init()
         {
-            Instance = new TurnManager();
-            Instance.Turn = 0;
-            Instance.PlayerIndex = -1;
+            Instance = new TurnManager
+            {
+                Turn = 0,
+                PlayerIndex = -1
+            };
         }
 
         public void NextTurn()

@@ -19,9 +19,9 @@ namespace Monopoly_Project
             TurnManager.Init();
 
             //For debugging
-            Gameboard g = Gameboard.instance;
+            /*Gameboard g = Gameboard.instance;
             ActionManager a = ActionManager.instance;
-            TurnManager t = TurnManager.Instance;
+            TurnManager t = TurnManager.Instance;*/
 
             do
             {
