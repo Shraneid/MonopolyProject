@@ -43,7 +43,6 @@ namespace Monopoly_Project
             {
                 ActionManager.AddAction(new GetSalaryAction());
             }
-
             PrintCell(p.ActualCell);
         }
 

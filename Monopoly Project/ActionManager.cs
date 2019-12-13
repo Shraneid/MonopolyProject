@@ -50,6 +50,7 @@ namespace Monopoly_Project
                         else if (p.IsInJail)
                         {
                             AddInstantAction(new GetOutOfJailAction());
+                            AddInstantAction(new DummyAction());
                         }
                         else
                         {
@@ -63,6 +64,7 @@ namespace Monopoly_Project
                 if (p.TurnsInJail >= 3)
                 {
                     AddInstantAction(new GetOutOfJailAction());
+                    AddInstantAction(new DummyAction());
                 }
 
                 //If you end up on the GoToJailCell, we need to remove all actions in case you arrived
@@ -70,6 +72,8 @@ namespace Monopoly_Project
                 if (p.ActualCell == Gameboard.GoToJailCell)
                 {
                     instance.Actions.Clear();
+                    //We need to add a dummy action here, so that it is not removed at the end of this 
+                    //loop so the gotojail plays correctly
                     AddAction(new DummyAction());
                     AddAction(new GoToJailAction());
                 }
