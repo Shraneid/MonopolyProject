@@ -38,11 +38,11 @@ namespace Monopoly_Project
         {
             Console.WriteLine("You move forward " + NumberOfSteps + " cells");
             Player p = ActionManager.instance.CurrentPlayer;
-            p.ActualCell = Gameboard.instance.Cells[(p.ActualCell.Index+NumberOfSteps)%40];
-            if ((p.ActualCell.Index + NumberOfSteps) / 40 > 0)
+            if ((p.ActualCell.Index + NumberOfSteps) >= 40)
             {
                 ActionManager.AddAction(new GetSalaryAction());
             }
+            p.ActualCell = Gameboard.instance.Cells[(p.ActualCell.Index + NumberOfSteps) % 40];
             PrintCell(p.ActualCell);
         }
 
@@ -70,6 +70,7 @@ namespace Monopoly_Project
             Console.WriteLine("You move forward " + NumberOfSteps + " cells");
             Player p = ActionManager.instance.CurrentPlayer;
             p.ActualCell = Gameboard.instance.Cells[(p.ActualCell.Index + NumberOfSteps) % 40];
+            p.ConsecutiveDoubles = 0;
             PrintCell(p.ActualCell);
         }
     }
@@ -144,6 +145,7 @@ namespace Monopoly_Project
         public override void Execute()
         {
             ActionManager.instance.CurrentPlayer.IsInJail = false;
+            ActionManager.instance.CurrentPlayer.TurnsInJail = 0;
         }
     }
 

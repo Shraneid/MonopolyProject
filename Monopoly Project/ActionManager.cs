@@ -29,7 +29,7 @@ namespace Monopoly_Project
             Player p = instance.CurrentPlayer;
 
             //If he is stuck in prison for 3 consecutive turns, we immediatly pop him from prison
-            if (p.TurnsInJail >= 3 && p.IsInJail)
+            if (p.TurnsInJail >= 4 && p.IsInJail)
             {
                 AddInstantAction(new GetOutOfJailAction());
                 AddInstantAction(new DummyAction());
@@ -38,10 +38,10 @@ namespace Monopoly_Project
             //RUN ALL ACTIONS UNTIL EMPTY
             while (instance.Actions.Count > 0)
             {
-                if (instance.Actions[0].GetType() == typeof(RollDiceAction) && p.ConsecutiveDoubles != 0)
+                /*if (instance.Actions[0].GetType() == typeof(RollDiceAction) && p.ConsecutiveDoubles != 0)
                 {
                     
-                }
+                }*/
 
                 //EXECUTE THE ACTUAL ACTION
                 if (instance.Actions[0].IsLegalMove())
@@ -90,6 +90,8 @@ namespace Monopoly_Project
                 instance.Actions.RemoveAt(0);
             }
 
+            //increments 1 when getting in prison directly so we need to check when the player spent 4 turns
+            //in jail (3 + the turn in which he arrived)
             if (p.IsInJail)
             {
                 p.TurnsInJail++;
