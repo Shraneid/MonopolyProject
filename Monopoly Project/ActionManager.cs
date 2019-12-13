@@ -27,7 +27,14 @@ namespace Monopoly_Project
         internal void ResolveActions()
         {
             Player p = instance.CurrentPlayer;
-            
+
+            //If he is stuck in prison for 3 consecutive turns, we immediatly pop him from prison
+            if (p.TurnsInJail >= 3 && p.IsInJail)
+            {
+                AddInstantAction(new GetOutOfJailAction());
+                AddInstantAction(new DummyAction());
+            }
+
             //RUN ALL ACTIONS UNTIL EMPTY
             while (instance.Actions.Count > 0)
             {
@@ -64,14 +71,6 @@ namespace Monopoly_Project
                             AddAction(new RollDiceAction());
                         }
                     }
-                }
-                //If he is stuck in prison for 3 consecutive turns, we immediatly pop him from prison
-                //but we do this after checking for doubles, because he shouldn't be able to benefit
-                //from the double rule if he gets out of prison
-                if (p.TurnsInJail >= 3)
-                {
-                    AddInstantAction(new GetOutOfJailAction());
-                    AddInstantAction(new DummyAction());
                 }
 
                 //If you end up on the GoToJailCell, we need to remove all actions in case you arrived
