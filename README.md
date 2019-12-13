@@ -34,17 +34,26 @@ even if he has rolled a both dice with the same value.
 * Use of Git
 
 ### Methods used
-We implemented several design pattern : 
+We implemented several design pattern.
+
 FACTORY PATTERN  :
 * Players are described by several features : 
 They have cash, a cell (actualcell), a name, we can know if they are in jail, the number of turns left until he leaves jail, the number of consecutive doubles, and if he is bankrupted.
 
 ```cs
-        public static Player GetNewPlayer(String name)
-        {
-            Player p = new Player(name);
-            return p;
-        }
+    public class Player
+    {
+        private const double BASE_CASH = 1500;
+        public static double SALARY = 200;
+
+        public double Cash { get; set; }
+        public Cell ActualCell { get; set; }
+        public string Name { get; set; }
+        public bool IsInJail { get; set; }
+        public int TurnsInJail { get; set; }
+        public int ConsecutiveDoubles { get; set; }
+        public bool Bankrupt { get; set; }
+      }
 ```
 
 * Cells for Gameboard where we have to distinguish every cell types (Jail, Start, Free parking, and other cells that contains buildings, cost to buy etc...)
@@ -78,19 +87,57 @@ For each cell, we can access its property (Value of the street, name of the stre
         }
 ```
 SINGLETON PATTERN:
+We had to use 3 different Singleton Patterns.
+```cs
+static void Main(string[] args)
+        {
+            Gameboard.Init();
+            ActionManager.Init();
+            TurnManager.Init();
+
+            //FOR DEBUGGING
+
+            Gameboard g = Gameboard.instance;
+            ActionManager a = ActionManager.instance;
+            TurnManager t = TurnManager.Instance;
+```
 * For the gameboard 
 * We actually created a text file containing every of the 40 Cells with every street name and cost of it.
 *InstantiatePropertyCells function will read the file and instanciate every cells according to its property.
+
+To play this game, we had to make a loop that would stop whenever a player wins, which means that there's only one player left. 
+We also had to take into account the player's turns and actions.
+That's why we needed a strategy pattern that would include two new classes : TurnManager and ActionManager.
+* Turnmanager is a static class that will help see which player's turn it is and how to move on to the next player.
 ```cs
+    public class TurnManager
+    {
+        public static TurnManager Instance { get; set; }
+        public int Turn { get; set; }
+        public int PlayerIndex { get; set; }
+        public Player[] Players { get; set; }
+
         public static void Init()
         {
-            instance = new Gameboard{Cells = new Cell[40]};
-
-            InstantiatePropertyCells(instance.Cells);
-
-            StartCell = instance.Cells[0];
-            JailCell = instance.Cells[10];
+            Instance = new TurnManager();
+            Instance.Turn = 0;
+            Instance.PlayerIndex = -1;
         }
+```
+* ActionManager stacks every actions related to a player into a list of "MonopolyAction" instances that will be emptied every turn.
+```cs
+    public class ActionManager
+{
+        public static ActionManager instance;
+        public Player CurrentPlayer { get; set; }
+        public List<MonopolyAction> Actions { get; set; }
+
+        public static void Init()
+        {
+            instance = new ActionManager();
+            instance.Actions = new List<MonopolyAction>();
+        }
+}
 ```
 MVC PATTERN : 
 * Model for our players/cells/gameboard/dice
@@ -118,40 +165,6 @@ MVC PATTERN :
         }
     }
 ```
-To play this game, we had to make a loop that would stop whenever a player wins, which means that there's only one player left. 
-We also had to take into account the player's turns and actions.
-That's why we needed a strategy pattern that would include two new classes : TurnManager and ActionManager.
-Turnmanager is a static class that will help see which player's turn it is and how to move on to the next player.
-ActionManager stacks every actions related to a player into a list of "MonopolyAction" instances that will be emptied every turn.
-```cs
-    public class TurnManager
-    {
-        public static TurnManager Instance { get; set; }
-        public int Turn { get; set; }
-        public int PlayerIndex { get; set; }
-        public Player[] Players { get; set; }
-
-        public static void Init()
-        {
-            Instance = new TurnManager();
-            Instance.Turn = 0;
-            Instance.PlayerIndex = -1;
-        }
-```
-```cs
-    public class ActionManager
-{
-        public static ActionManager instance;
-        public Player CurrentPlayer { get; set; }
-        public List<MonopolyAction> Actions { get; set; }
-
-        public static void Init()
-        {
-            instance = new ActionManager();
-            instance.Actions = new List<MonopolyAction>();
-        }
-}
-```
 In addition, a monopoly Action Class will analyze every of the action assigned to a player's turn and check if it's a legal move or not.
 ```cs
     public abstract class MonopolyAction
@@ -164,7 +177,6 @@ In addition, a monopoly Action Class will analyze every of the action assigned t
 ```
 And for every instanciated actions, we create a inherited class from monopoly action that would have two methods : Islegalmove() and Execute(). 
 For example this a class for every time a player goes into the jail cell : 
-<a href="https://ibb.co/Mn41yJ8"><img src="https://i.ibb.co/rkSpKXb/uml.png" alt="uml" border="0"></a>
 ```cs
     public class GoToJailAction : MonopolyAction
     {
@@ -181,6 +193,9 @@ For example this a class for every time a player goes into the jail cell :
         }
     }
 ```
+We can give the following UML to describe the class.
+<a href="https://ibb.co/Mn41yJ8"><img src="https://i.ibb.co/rkSpKXb/uml.png" alt="uml" border="0"></a>
+
 ### Built With 
 
 * Microsoft Visual Studio 2019 
